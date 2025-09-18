@@ -9,42 +9,28 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        .gradient-bg {
-            background: linear-gradient(135deg, #1f2937, #374151);
-        }
-        .modal {
-            transition: opacity 0.25s ease;
-        }
-        .modal-content {
-            transition: transform 0.25s ease;
-        }
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #06b6d4;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #1f2937, #374151); }
+        .modal { transition: opacity 0.25s ease; }
+        .modal-content { transition: transform 0.25s ease; }
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #06b6d4; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        /* --- CORRECCIÓN AÑADIDA --- */
+        #modal-body {
+            max-height: 60vh; /* Límite de altura al 60% de la pantalla */
+            overflow-y: auto; /* Añade scroll vertical si el contenido se desborda */
         }
     </style>
 </head>
 <body class="bg-gray-900 text-white">
 
     <div id="app" class="flex flex-col md:flex-row min-h-screen">
-        <!-- Panel de Días de Entrenamiento -->
+        <!-- Panel Lateral -->
         <aside class="w-full md:w-1/4 lg:w-1/5 gradient-bg p-4 md:p-6 shadow-lg">
             <h1 class="text-2xl font-bold mb-2 text-cyan-400">Mi Rutina</h1>
             <p class="text-xs text-gray-400 mb-6">Fase 1: Acondicionamiento</p>
-            <nav id="workout-days-nav" class="space-y-2">
-                <!-- Los días de entrenamiento se insertarán aquí -->
-            </nav>
+            <nav id="workout-days-nav" class="space-y-2"></nav>
             <div class="mt-6 pt-6 border-t border-gray-600 space-y-2">
                 <h3 class="text-sm font-semibold text-gray-400 px-1 mb-2">GESTIÓN DE DATOS</h3>
                 <button id="import-btn" class="w-full text-sm bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition duration-300 flex items-center justify-center">
@@ -57,28 +43,21 @@
                 </button>
             </div>
             <div class="mt-6 space-y-2">
-                 <button id="reset-week-btn" class="w-full text-sm bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
-                    Reiniciar Semana
-                </button>
-                <button id="history-btn" class="w-full text-sm bg-amber-600 hover:bg-amber-700 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
-                    Ver Historial
-                </button>
+                 <button id="reset-week-btn" class="w-full text-sm bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300">Reiniciar Semana</button>
+                 <button id="history-btn" class="w-full text-sm bg-amber-600 hover:bg-amber-700 text-white font-medium py-2 px-4 rounded-lg transition duration-300">Ver Historial</button>
             </div>
         </aside>
 
-        <!-- Panel Principal de Ejercicios -->
+        <!-- Panel Principal -->
         <main class="w-full md:w-3/4 lg:w-4/5 p-4 md:p-8 overflow-y-auto">
             <div id="welcome-screen" class="flex flex-col items-center justify-center h-full text-center">
-                <svg class="w-24 h-24 text-cyan-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                <svg class="w-24 h-24 text-cyan-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                 <h2 class="text-3xl font-bold">Bienvenido a tu Tracker</h2>
-                <p class="text-gray-400 mt-2">Selecciona un día de entrenamiento para comenzar o importa tu progreso desde un archivo.</p>
+                <p class="text-gray-400 mt-2">Selecciona un día para comenzar o importa tu progreso.</p>
             </div>
             
-            <div id="history-view" class="hidden">
-                <!-- El historial se renderizará aquí -->
-            </div>
+            <div id="history-view" class="hidden"></div>
             <div id="workout-details" class="hidden">
-                <!-- Cronómetro -->
                 <div class="bg-gray-800 rounded-lg p-4 mb-8 sticky top-4 z-10 shadow-md">
                     <div class="flex items-center justify-between">
                         <h3 class="text-xl font-semibold text-cyan-400">Descanso</h3>
@@ -98,24 +77,21 @@
                     </button>
                 </div>
                 
-                <div id="exercise-list" class="space-y-6">
-                    <!-- Las tarjetas de ejercicios se insertarán aquí -->
-                </div>
+                <div id="exercise-list" class="space-y-6"></div>
                  <button id="finish-workout" class="mt-8 w-full bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 px-4 rounded-lg transition duration-300">Finalizar Entrenamiento</button>
                  <div id="post-workout-actions" class="mt-4 text-center"></div>
             </div>
         </main>
     </div>
 
-    <!-- Modal para GIF y Gemini -->
+    <!-- Modal General -->
     <div id="general-modal" class="modal fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 opacity-0 pointer-events-none">
-        <div class="modal-content bg-gray-800 rounded-lg shadow-xl p-4 md:p-6 w-11/12 md:w-1/2 lg:w-1/3 transform scale-95">
-            <div class="flex justify-between items-center mb-4">
+        <div class="modal-content bg-gray-800 rounded-lg shadow-xl p-4 md:p-6 w-11/12 md:w-1/2 lg:w-1/3 transform scale-95 flex flex-col">
+            <div class="flex justify-between items-center mb-4 flex-shrink-0">
                 <h3 id="modal-title" class="text-2xl font-bold text-cyan-400"></h3>
                 <button id="close-modal" class="text-3xl leading-none text-gray-400 hover:text-white">&times;</button>
             </div>
-            <div id="modal-body">
-                <!-- Contenedores para GIF, Texto y Loader -->
+            <div id="modal-body" class="flex-grow">
                 <img id="modal-gif-container" src="" alt="Demostración del ejercicio" class="w-full rounded-lg hidden">
                 <div id="modal-text-container" class="text-gray-300 prose prose-invert max-w-none"></div>
                 <div id="modal-loader" class="flex justify-center items-center h-32 hidden">
@@ -127,16 +103,13 @@
 
     <script>
         const app = {
-            // --- DATOS DE LA RUTINA ---
             workoutPlan: [
-                // ... (el mismo workoutPlan que ya tenías)
-                 { day: "Día 1", title: "Tren Superior A (Horizontal)", isCompleted: false, exercises: [ { name: "Face Pulls", series: 4, reps: "15-20", notes: "Lento y controlado. Tira hacia la cara y rota los hombros hacia afuera al final.", gifUrl: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Face-Pull.gif", log: [], previousLog: [], focoPostural: "Termina con los hombros rotados hacia afuera, como si mostraras los bíceps.", dailyNote: "", previousDailyNote: "" }, { name: "Press de Suelo con Mancuernas (Agarre Neutro)", series: 3, reps: "8-12", notes: "El suelo limita el rango de movimiento protegiendo el hombro.", gifUrl: "https://i.imgur.com/MalzU35.gif", log: [], previousLog: [], focoPostural: "Mantén los omóplatos pegados al suelo durante todo el movimiento.", dailyNote: "", previousDailyNote: "" }, { name: "Remo Sentado en Polea (Agarre Neutro)", series: 3, reps: "10-12", notes: "Aprieta las escápulas (omóplatos) en cada repetición.", gifUrl: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Seated-Cable-Row.gif", log: [], previousLog: [], focoPostural: "Inicia el movimiento retrayendo las escápulas, no tirando con los brazos.", dailyNote: "", previousDailyNote: "" }, { name: "Flexiones con Protracción (Push-Up Plus)", series: 3, reps: "AMRAP", notes: "De rodillas si es necesario. Al final, empuja el suelo para separar los omóplatos.", gifUrl: "https://i.imgur.com/ukrIogh.gif", log: [], previousLog: [], focoPostural: "Al empujar, separa tus omóplatos al máximo.", dailyNote: "", previousDailyNote: "" }, { name: "Band Pull-Aparts", series: 2, reps: "20-25", notes: "Movimiento constante, enfocado en la parte alta de la espalda.", gifUrl: "https://i.imgur.com/L6vT6up.gif", log: [], previousLog: [], focoPostural: "Hombros abajo y atrás. Exprime la parte alta de la espalda.", dailyNote: "", previousDailyNote: "" } ] }, { day: "Día 2", title: "Tren Inferior A (Sentadilla)", isCompleted: false, exercises: [ { name: "Goblet Squat (Sentadilla Copa)", series: 4, reps: "10-12", notes: "El mejor ejercicio para aprender a hacer sentadillas. Pecho erguido, espalda recta.", gifUrl: "https://i.imgur.com/tutKqiZ.gif", log: [], previousLog: [], focoPostural: "Pecho erguido, como si el logo de tu camiseta apuntara al frente.", dailyNote: "", previousDailyNote: "" }, { name: "Zancadas Estáticas", series: 3, reps: "12-15 c/p", notes: "Empieza con la pierna derecha. Enfócate en el equilibrio.", gifUrl: "https://i.imgur.com/mRWYOHx.gif", log: [], previousLog: [], focoPostural: "Tronco vertical, abdomen apretado para mantener el equilibrio.", dailyNote: "", previousDailyNote: "" }, { name: "Prensa de Piernas", series: 3, reps: "12-15", notes: "Controla la bajada (fase excéntrica).", gifUrl: "https://i.imgur.com/kjcPzdo.gif", log: [], previousLog: [], focoPostural: "Mantén la zona lumbar y la cadera pegadas al asiento.", dailyNote: "", previousDailyNote: "" }, { name: "Puente de Glúteo", series: 4, reps: "15-20", notes: "Sostén 2 segundos en la contracción máxima, apretando fuerte los glúteos.", gifUrl: "https://i.imgur.com/P0zTenO.gif", log: [], previousLog: [], focoPostural: "Aprieta los glúteos para subir, no uses la espalda baja.", dailyNote: "", previousDailyNote: "" }, { name: "Elevación de Gemelos", series: 4, reps: "15-20", notes: "Rango de movimiento completo.", gifUrl: "https://i.imgur.com/WKhOBS8.gif", log: [], previousLog: [], focoPostural: "Controla tanto la subida como la bajada lenta.", dailyNote: "", previousDailyNote: "" } ] }, { day: "Día 3", title: "Descanso", isCompleted: false, exercises: [] }, { day: "Día 4", title: "Tren Superior B (Vertical)", isCompleted: false, exercises: [ { name: "Jalón al Pecho (Agarre Ancho a Hombros)", series: 4, reps: "8-12", notes: "Saca pecho, lleva la barra a la parte alta del esternón.", gifUrl: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Lat-Pulldown.gif", log: [], previousLog: [], focoPostural: "Piensa en llevar los codos hacia abajo y atrás, no solo las manos.", dailyNote: "", previousDailyNote: "" }, { name: "Press Inclinado DB (Ángulo Alto 60-75°)", series: 3, reps: "8-10 c/b", notes: "Sustituto del Press Landmine. Agarre neutro. Empieza con el brazo derecho.", gifUrl: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Incline-Dumbbell-Press.gif", log: [], previousLog: [], focoPostural: "Hombros pegados al banco, no dejes que se levanten.", dailyNote: "", previousDailyNote: "" }, { name: "Remo con Mancuerna a una mano", series: 3, reps: "10-12 c/b", notes: "Espalda recta. Empieza con el brazo derecho.", gifUrl: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Row.gif", log: [], previousLog: [], focoPostural: "Codo pegado al cuerpo, evita que el hombro rote hacia adelante.", dailyNote: "", previousDailyNote: "" }, { name: "Elevaciones Laterales ('Full Can')", series: 3, reps: "12-15", notes: "Pulgares apuntando ligeramente hacia arriba. No superes la altura de los hombros.", gifUrl: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Lateral-Raise.gif", log: [], previousLog: [], focoPostural: "Pulgares arriba. Movimiento en el plano escapular (ligeramente hacia adelante).", dailyNote: "", previousDailyNote: "" }, { name: "Curl de Bíceps con Mancuernas", series: 3, reps: "10-12 c/b", notes: "Brazo derecho primero, el izquierdo iguala las repeticiones.", gifUrl: "https://i.imgur.com/5dekzSK.gif", log: [], previousLog: [], focoPostural: "Codos fijos a los costados, sin balancear el cuerpo.", dailyNote: "", previousDailyNote: "" }, { name: "Extensiones de Tríceps en Polea", series: 3, reps: "10-12", notes: "Hombros atrás y abajo.", gifUrl: "https://i.imgur.com/FDeN6J8.gif", log: [], previousLog: [], focoPostural: "Hombros bloqueados, solo se mueven los antebrazos.", dailyNote: "", previousDailyNote: "" } ] }, { day: "Día 5", title: "Tren Inferior B (Cadera)", isCompleted: false, exercises: [ { name: "Peso Muerto Rumano con Mancuernas", series: 4, reps: "12-15", notes: "Espalda recta, flexiona desde la cadera (no la cintura). Siente el estiramiento en femorales.", gifUrl: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Romanian-Deadlift.gif", log: [], previousLog: [], focoPostural: "Espalda completamente recta, saca pecho.", dailyNote: "", previousDailyNote: "" }, { name: "Curl Femoral Tumbado", series: 3, reps: "12-15", notes: "Movimiento lento y controlado.", gifUrl: "https://i.imgur.com/yNgs6wG.gif", log: [], previousLog: [], focoPostural: "Cadera pegada al banco durante todo el recorrido.", dailyNote: "", previousDailyNote: "" }, { name: "Máquina de Aductores", series: 3, reps: "15-20", notes: "Controla tanto la apertura como el cierre.", gifUrl: "https://i.imgur.com/0XyAQ4m.gif", log: [], previousLog: [], focoPostural: "Movimiento controlado, sin impulsos.", dailyNote: "", previousDailyNote: "" }, { name: "Plancha Frontal", series: 3, reps: "Al fallo", notes: "Mantén el cuerpo como una tabla.", gifUrl: "https://i.imgur.com/UytlMR9.gif", log: [], previousLog: [], focoPostural: "Aprieta glúteos y abdomen para evitar que la cadera caiga.", dailyNote: "", previousDailyNote: "" }, { name: "Cardio Moderado", series: 1, reps: "20-30 min", notes: "Caminadora inclinada o elíptica.", gifUrl: "https://i.imgur.com/rbBh31w.gif", log: [], previousLog: [], focoPostural: "Mantén una postura erguida, hombros relajados.", dailyNote: "", previousDailyNote: "" } ] }
+                { day: "Día 1", title: "Tren Superior A (Horizontal)", isCompleted: false, exercises: [ { name: "Face Pulls", series: 4, reps: "15-20", notes: "Lento y controlado. Tira hacia la cara y rota los hombros hacia afuera al final.", gifUrl: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Face-Pull.gif", log: [], previousLog: [], focoPostural: "Termina con los hombros rotados hacia afuera, como si mostraras los bíceps.", dailyNote: "", previousDailyNote: "" }, { name: "Press de Suelo con Mancuernas (Agarre Neutro)", series: 3, reps: "8-12", notes: "El suelo limita el rango de movimiento protegiendo el hombro.", gifUrl: "https://i.imgur.com/MalzU35.gif", log: [], previousLog: [], focoPostural: "Mantén los omóplatos pegados al suelo durante todo el movimiento.", dailyNote: "", previousDailyNote: "" }, { name: "Remo Sentado en Polea (Agarre Neutro)", series: 3, reps: "10-12", notes: "Aprieta las escápulas (omóplatos) en cada repetición.", gifUrl: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Seated-Cable-Row.gif", log: [], previousLog: [], focoPostural: "Inicia el movimiento retrayendo las escápulas, no tirando con los brazos.", dailyNote: "", previousDailyNote: "" }, { name: "Flexiones con Protracción (Push-Up Plus)", series: 3, reps: "AMRAP", notes: "De rodillas si es necesario. Al final, empuja el suelo para separar los omóplatos.", gifUrl: "https://i.imgur.com/ukrIogh.gif", log: [], previousLog: [], focoPostural: "Al empujar, separa tus omóplatos al máximo.", dailyNote: "", previousDailyNote: "" }, { name: "Band Pull-Aparts", series: 2, reps: "20-25", notes: "Movimiento constante, enfocado en la parte alta de la espalda.", gifUrl: "https://i.imgur.com/L6vT6up.gif", log: [], previousLog: [], focoPostural: "Hombros abajo y atrás. Exprime la parte alta de la espalda.", dailyNote: "", previousDailyNote: "" } ] }, { day: "Día 2", title: "Tren Inferior A (Sentadilla)", isCompleted: false, exercises: [ { name: "Goblet Squat (Sentadilla Copa)", series: 4, reps: "10-12", notes: "El mejor ejercicio para aprender a hacer sentadillas. Pecho erguido, espalda recta.", gifUrl: "https://i.imgur.com/tutKqiZ.gif", log: [], previousLog: [], focoPostural: "Pecho erguido, como si el logo de tu camiseta apuntara al frente.", dailyNote: "", previousDailyNote: "" }, { name: "Zancadas Estáticas", series: 3, reps: "12-15 c/p", notes: "Empieza con la pierna derecha. Enfócate en el equilibrio.", gifUrl: "https://i.imgur.com/mRWYOHx.gif", log: [], previousLog: [], focoPostural: "Tronco vertical, abdomen apretado para mantener el equilibrio.", dailyNote: "", previousDailyNote: "" }, { name: "Prensa de Piernas", series: 3, reps: "12-15", notes: "Controla la bajada (fase excéntrica).", gifUrl: "https://i.imgur.com/kjcPzdo.gif", log: [], previousLog: [], focoPostural: "Mantén la zona lumbar y la cadera pegadas al asiento.", dailyNote: "", previousDailyNote: "" }, { name: "Puente de Glúteo", series: 4, reps: "15-20", notes: "Sostén 2 segundos en la contracción máxima, apretando fuerte los glúteos.", gifUrl: "https://i.imgur.com/P0zTenO.gif", log: [], previousLog: [], focoPostural: "Aprieta los glúteos para subir, no uses la espalda baja.", dailyNote: "", previousDailyNote: "" }, { name: "Elevación de Gemelos", series: 4, reps: "15-20", notes: "Rango de movimiento completo.", gifUrl: "https://i.imgur.com/WKhOBS8.gif", log: [], previousLog: [], focoPostural: "Controla tanto la subida como la bajada lenta.", dailyNote: "", previousDailyNote: "" } ] }, { day: "Día 3", title: "Descanso", isCompleted: false, exercises: [] }, { day: "Día 4", title: "Tren Superior B (Vertical)", isCompleted: false, exercises: [ { name: "Jalón al Pecho (Agarre Ancho a Hombros)", series: 4, reps: "8-12", notes: "Saca pecho, lleva la barra a la parte alta del esternón.", gifUrl: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Lat-Pulldown.gif", log: [], previousLog: [], focoPostural: "Piensa en llevar los codos hacia abajo y atrás, no solo las manos.", dailyNote: "", previousDailyNote: "" }, { name: "Press Inclinado DB (Ángulo Alto 60-75°)", series: 3, reps: "8-10 c/b", notes: "Sustituto del Press Landmine. Agarre neutro. Empieza con el brazo derecho.", gifUrl: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Incline-Dumbbell-Press.gif", log: [], previousLog: [], focoPostural: "Hombros pegados al banco, no dejes que se levanten.", dailyNote: "", previousDailyNote: "" }, { name: "Remo con Mancuerna a una mano", series: 3, reps: "10-12 c/b", notes: "Espalda recta. Empieza con el brazo derecho.", gifUrl: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Row.gif", log: [], previousLog: [], focoPostural: "Codo pegado al cuerpo, evita que el hombro rote hacia adelante.", dailyNote: "", previousDailyNote: "" }, { name: "Elevaciones Laterales ('Full Can')", series: 3, reps: "12-15", notes: "Pulgares apuntando ligeramente hacia arriba. No superes la altura de los hombros.", gifUrl: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Lateral-Raise.gif", log: [], previousLog: [], focoPostural: "Pulgares arriba. Movimiento en el plano escapular (ligeramente hacia adelante).", dailyNote: "", previousDailyNote: "" }, { name: "Curl de Bíceps con Mancuernas", series: 3, reps: "10-12 c/b", notes: "Brazo derecho primero, el izquierdo iguala las repeticiones.", gifUrl: "https://i.imgur.com/5dekzSK.gif", log: [], previousLog: [], focoPostural: "Codos fijos a los costados, sin balancear el cuerpo.", dailyNote: "", previousDailyNote: "" }, { name: "Extensiones de Tríceps en Polea", series: 3, reps: "10-12", notes: "Hombros atrás y abajo.", gifUrl: "https://i.imgur.com/FDeN6J8.gif", log: [], previousLog: [], focoPostural: "Hombros bloqueados, solo se mueven los antebrazos.", dailyNote: "", previousDailyNote: "" } ] }, { day: "Día 5", title: "Tren Inferior B (Cadera)", isCompleted: false, exercises: [ { name: "Peso Muerto Rumano con Mancuernas", series: 4, reps: "12-15", notes: "Espalda recta, flexiona desde la cadera (no la cintura). Siente el estiramiento en femorales.", gifUrl: "https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Romanian-Deadlift.gif", log: [], previousLog: [], focoPostural: "Espalda completamente recta, saca pecho.", dailyNote: "", previousDailyNote: "" }, { name: "Curl Femoral Tumbado", series: 3, reps: "12-15", notes: "Movimiento lento y controlado.", gifUrl: "https://i.imgur.com/yNgs6wG.gif", log: [], previousLog: [], focoPostural: "Cadera pegada al banco durante todo el recorrido.", dailyNote: "", previousDailyNote: "" }, { name: "Máquina de Aductores", series: 3, reps: "15-20", notes: "Controla tanto la apertura como el cierre.", gifUrl: "https://i.imgur.com/0XyAQ4m.gif", log: [], previousLog: [], focoPostural: "Movimiento controlado, sin impulsos.", dailyNote: "", previousDailyNote: "" }, { name: "Plancha Frontal", series: 3, reps: "Al fallo", notes: "Mantén el cuerpo como una tabla.", gifUrl: "https://i.imgur.com/UytlMR9.gif", log: [], previousLog: [], focoPostural: "Aprieta glúteos y abdomen para evitar que la cadera caiga.", dailyNote: "", previousDailyNote: "" }, { name: "Cardio Moderado", series: 1, reps: "20-30 min", notes: "Caminadora inclinada o elíptica.", gifUrl: "https://i.imgur.com/rbBh31w.gif", log: [], previousLog: [], focoPostural: "Mantén una postura erguida, hombros relajados.", dailyNote: "", previousDailyNote: "" } ] }
             ],
             currentDayIndex: null,
             timerInterval: null,
             timerSeconds: 0,
 
-            // --- MÉTODOS DE LA APP ---
             init() {
                 this.renderNav();
                 this.addEventListeners();
@@ -144,22 +117,17 @@
 
             addEventListeners() {
                 document.getElementById('close-modal').addEventListener('click', () => this.closeModal());
-                document.getElementById('general-modal').addEventListener('click', (e) => {
-                    if (e.target.id === 'general-modal') this.closeModal();
-                });
+                document.getElementById('general-modal').addEventListener('click', (e) => { if (e.target.id === 'general-modal') this.closeModal(); });
                 document.getElementById('start-timer').addEventListener('click', () => this.startTimer());
                 document.getElementById('stop-timer').addEventListener('click', () => this.stopTimer());
                 document.getElementById('reset-timer').addEventListener('click', () => this.resetTimer());
                 document.getElementById('warmup-btn').addEventListener('click', () => this.generateWarmup());
                 document.getElementById('reset-week-btn').addEventListener('click', () => this.resetWeek());
                 document.getElementById('history-btn').addEventListener('click', () => this.showHistoryView());
-                
-                // Nuevos listeners para Importar/Exportar
                 document.getElementById('import-btn').addEventListener('click', () => this.importData());
                 document.getElementById('export-btn').addEventListener('click', () => this.exportData());
             },
 
-            // --- NUEVOS MÉTODOS DE GESTIÓN DE DATOS ---
             exportData() {
                 const dataStr = JSON.stringify(this.workoutPlan, null, 2);
                 const dataBlob = new Blob([dataStr], {type: "application/json"});
@@ -171,7 +139,7 @@
                 link.click();
                 document.body.removeChild(link);
                 URL.revokeObjectURL(url);
-                 alert('¡Progreso exportado con éxito! Guarda el archivo para usarlo después.');
+                alert('¡Progreso exportado con éxito!');
             },
 
             importData() {
@@ -181,12 +149,10 @@
                 input.onchange = (event) => {
                     const file = event.target.files[0];
                     if (!file) return;
-
                     const reader = new FileReader();
                     reader.onload = (e) => {
                         try {
                             const importedData = JSON.parse(e.target.result);
-                            // Validación simple para asegurar que es el archivo correcto
                             if (Array.isArray(importedData) && importedData[0].day) {
                                 this.workoutPlan = importedData;
                                 this.currentDayIndex = null;
@@ -196,10 +162,10 @@
                                 document.getElementById('history-view').classList.add('hidden');
                                 alert('¡Progreso importado con éxito!');
                             } else {
-                                alert('Error: El archivo no parece tener el formato correcto.');
+                                alert('Error: El archivo no tiene el formato correcto.');
                             }
                         } catch (error) {
-                             alert('Error al leer el archivo. Asegúrate de que es un archivo JSON válido.');
+                             alert('Error al leer el archivo.');
                         }
                     };
                     reader.readAsText(file);
@@ -207,48 +173,7 @@
                 input.click();
             },
 
-            saveDailyNote(exerciseIndex, text) {
-                if (this.currentDayIndex === null) return;
-                this.workoutPlan[this.currentDayIndex].exercises[exerciseIndex].dailyNote = text;
-            },
-
-            renderNav() {
-                const navEl = document.getElementById('workout-days-nav');
-                navEl.innerHTML = '';
-                this.workoutPlan.forEach((day, index) => {
-                    const isRestDay = day.exercises.length === 0;
-                    const button = document.createElement('button');
-                    button.innerHTML = `
-                        <span class="flex items-center">
-                            ${day.isCompleted ? 
-                                `<svg class="w-5 h-5 mr-2 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>` : 
-                                `<svg class="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle></svg>`
-                            }
-                            ${day.day} ${isRestDay ? '<span class="text-xs text-gray-400 ml-2">(Descanso)</span>' : ''}
-                        </span>
-                    `;
-                    button.className = `w-full text-left px-4 py-3 rounded-lg transition duration-200 flex items-center justify-between font-medium ${this.currentDayIndex === index ? 'bg-cyan-500 text-white' : 'hover:bg-gray-700'}`;
-                    if (isRestDay) {
-                        button.disabled = true;
-                        button.classList.add('opacity-50', 'cursor-not-allowed');
-                    } else {
-                        button.addEventListener('click', () => this.selectDay(index));
-                    }
-                    navEl.appendChild(button);
-                });
-            },
-
-            selectDay(index) {
-                this.currentDayIndex = index;
-                this.renderNav();
-                document.getElementById('history-view').classList.add('hidden');
-                document.getElementById('welcome-screen').classList.add('hidden');
-                document.getElementById('workout-details').classList.remove('hidden');
-                this.renderWorkoutDetails();
-            },
-            
-            // ... (El resto de los métodos como renderWorkoutDetails, saveSet, callGemini, etc., se mantienen igual que en tu archivo original)
-             renderWorkoutDetails() {
+            renderWorkoutDetails() {
                 if (this.currentDayIndex === null) return;
                 const dayData = this.workoutPlan[this.currentDayIndex];
                 document.getElementById('workout-day-title').textContent = dayData.title;
@@ -258,29 +183,7 @@
                 dayData.exercises.forEach((exercise, exerciseIndex) => {
                     const card = document.createElement('div');
                     card.className = 'bg-gray-800 p-5 rounded-lg shadow-lg';
-
-                    let focoPosturalHTML = '';
-                    if (exercise.focoPostural) {
-                        focoPosturalHTML = `
-                        <div class="mt-3 pt-3 border-t border-gray-700/50">
-                            <h5 class="text-sm font-semibold text-amber-400 flex items-center">
-                                <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9.75L14.25 12m0 0l2.25 2.25M14.25 12L12 14.25m-2.58 4.92l-6.375-6.375a1.125 1.125 0 010-1.59L9.42 4.83c.211-.211.498-.33.796-.33H19.5a2.25 2.25 0 012.25 2.25v10.5a2.25 2.25 0 01-2.25 2.25h-9.284c-.298 0-.585-.119-.796-.33z" /></svg>
-                                Foco Postural
-                            </h5>
-                            <p class="text-sm text-gray-300 mt-1 pl-1">${exercise.focoPostural}</p>
-                        </div>`;
-                    }
-
-                    const dailyNoteHTML = `
-                        <div class="mt-3 pt-3 border-t border-gray-700/50">
-                            <h5 class="text-sm font-semibold text-green-400 flex items-center">
-                                <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" /></svg>
-                                Notas Personales
-                            </h5>
-                            <textarea oninput="app.saveDailyNote(${exerciseIndex}, this.value)" class="w-full bg-gray-700 border border-gray-600 rounded mt-2 px-3 py-2 text-sm text-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" rows="2" placeholder="Anota aquí tus sensaciones, molestias, etc.">${exercise.dailyNote || ''}</textarea>
-                        </div>
-                    `;
-
+                    
                     card.innerHTML = `
                         <div class="flex justify-between items-start gap-4">
                             <div>
@@ -292,195 +195,138 @@
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.55a2.5 2.5 0 010 4l-4.55 2.5M4 10v4m6-4v4m6-10h.01M6 6h.01M10 6h.01"></path></svg>
                             </button>
                         </div>
-                        ${focoPosturalHTML}
-                        ${dailyNoteHTML}
+                        <div class="mt-3 pt-3 border-t border-gray-700/50">
+                            <h5 class="text-sm font-semibold text-amber-400 flex items-center">
+                                <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9.75L14.25 12m0 0l2.25 2.25M14.25 12L12 14.25m-2.58 4.92l-6.375-6.375a1.125 1.125 0 010-1.59L9.42 4.83c.211-.211.498-.33.796-.33H19.5a2.25 2.25 0 012.25 2.25v10.5a2.25 2.25 0 01-2.25 2.25h-9.284c-.298 0-.585-.119-.796-.33z" /></svg>
+                                Foco Postural
+                            </h5>
+                            <p class="text-sm text-gray-300 mt-1 pl-1">${exercise.focoPostural}</p>
+                        </div>
+                        <div class="mt-3 pt-3 border-t border-gray-700/50">
+                            <h5 class="text-sm font-semibold text-green-400 flex items-center">
+                                <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" /></svg>
+                                Notas Personales
+                            </h5>
+                            <textarea oninput="app.saveDailyNote(${exerciseIndex}, this.value)" class="w-full bg-gray-700 border border-gray-600 rounded mt-2 px-3 py-2 text-sm text-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" rows="2" placeholder="Anota aquí tus sensaciones...">${exercise.dailyNote || ''}</textarea>
+                        </div>
                         <div class="mt-4" id="log-section-${exerciseIndex}"></div>
-                        <div class="mt-4 border-t border-gray-700 pt-4">
-                            <button class="w-full text-sm bg-gray-600 hover:bg-gray-500 text-white font-medium py-2 px-4 rounded-lg transition duration-300 flex items-center justify-center" onclick="app.suggestAlternative(${exerciseIndex})">
-                                <span class="mr-2">✨</span> Sugerir Alternativa
+                        <div class="mt-4 border-t border-gray-700 pt-4 flex space-x-2">
+                            <button class="w-1/2 text-sm bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-lg transition duration-300 flex items-center justify-center" onclick="app.analyzeExercise(${exerciseIndex})">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                Analizar
+                            </button>
+                            <button class="w-1/2 text-sm bg-gray-600 hover:bg-gray-500 text-white font-medium py-2 px-4 rounded-lg transition duration-300 flex items-center justify-center" onclick="app.suggestAlternative(${exerciseIndex})">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+                                Alternativa
                             </button>
                         </div>
                     `;
                     exerciseListEl.appendChild(card);
                     this.renderLogSection(exerciseIndex);
                 });
-                
-                const finishBtn = document.getElementById('finish-workout');
-                finishBtn.onclick = () => this.finishWorkout();
-                
+                document.getElementById('finish-workout').onclick = () => this.finishWorkout();
                 this.renderPostWorkoutActions();
             },
             
-            renderLogSection(exerciseIndex) {
-                const logSectionEl = document.getElementById(`log-section-${exerciseIndex}`);
+            async analyzeExercise(exerciseIndex) {
                 const exercise = this.workoutPlan[this.currentDayIndex].exercises[exerciseIndex];
-                logSectionEl.innerHTML = '';
-                const logList = document.createElement('div');
-                logList.className = 'space-y-2 mb-4';
-                exercise.log.forEach((log, setIndex) => {
-                    logList.innerHTML += `
-                        <div class="flex items-center justify-between bg-gray-700 p-2 rounded">
-                            <span class="font-medium">Serie ${setIndex + 1}:</span>
-                            <span class="text-gray-300">${log.weight} kg x ${log.reps} reps</span>
-                            <button class="text-red-500 hover:text-red-400 text-xs" onclick="app.deleteSet(${exerciseIndex}, ${setIndex})">Eliminar</button>
-                        </div>`;
-                });
-                logSectionEl.appendChild(logList);
-
-                if (exercise.log.length < exercise.series) {
-                    const lastLog = exercise.log[exercise.log.length - 1] || { weight: '', reps: '' };
-                    const form = document.createElement('div');
-                    form.className = 'flex items-center space-x-2 md:space-x-4';
-                    
-                    const setNumber = exercise.log.length + 1;
-                    let previousSetHTML = '';
-                    if (exercise.previousLog && exercise.previousLog[setNumber - 1]) {
-                        const prev = exercise.previousLog[setNumber - 1];
-                        previousSetHTML = `<span class="text-sm text-gray-400 ml-2">(Anterior: ${prev.weight} kg x ${prev.reps} reps)</span>`;
-                    }
-
-                    form.innerHTML = `
-                        <div class="flex-grow flex items-center">
-                           <span class="font-bold text-lg text-gray-400">Serie ${setNumber}</span>
-                           ${previousSetHTML}
-                        </div>
-                        <input type="number" id="weight-input-${exerciseIndex}" placeholder="Peso (kg)" value="${lastLog.weight}" class="bg-gray-700 border border-gray-600 rounded px-3 py-2 w-24 focus:outline-none focus:ring-2 focus:ring-cyan-500">
-                        <input type="number" id="reps-input-${exerciseIndex}" placeholder="Reps" value="${lastLog.reps}" class="bg-gray-700 border border-gray-600 rounded px-3 py-2 w-24 focus:outline-none focus:ring-2 focus:ring-cyan-500">
-                        <button onclick="app.saveSet(${exerciseIndex})" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded whitespace-nowrap">Guardar</button>`;
-                    logSectionEl.appendChild(form);
-                } else {
-                    logSectionEl.innerHTML += `<p class="text-green-400 font-medium text-center">¡Todas las series completadas!</p>`;
-                }
-            },
-
-            saveSet(exerciseIndex) {
-                const weightInput = document.getElementById(`weight-input-${exerciseIndex}`);
-                const repsInput = document.getElementById(`reps-input-${exerciseIndex}`);
-                const weight = parseFloat(weightInput.value) || 0;
-                const reps = parseInt(repsInput.value) || 0;
-
-                if (reps > 0) {
-                    this.workoutPlan[this.currentDayIndex].exercises[exerciseIndex].log.push({ weight, reps });
-                    this.renderLogSection(exerciseIndex);
-                }
+                this.showLoadingModal(`Analizando ${exercise.name}...`);
+                const prompt = `
+                    Actúa como un fisioterapeuta y entrenador personal experto. 
+                    Mi objetivo principal es corregir el Síndrome Cruzado Superior, que me causa dolor de hombro y desequilibrios de fuerza debido a un estilo de vida sedentario frente a un computador.
+                    Analiza el siguiente ejercicio: '${exercise.name}'.
+                    Explícame de forma clara y concisa, como si fueras mi coach personal:
+                    1.  **Relevancia para Mi Objetivo:** ¿Por qué este ejercicio es importante específicamente para mi meta de corregir la postura y el dolor de hombro?
+                    2.  **Músculos Clave:** ¿Qué músculos trabaja y cómo contribuye a re-balancear la tensión entre mi pecho y mi espalda?
+                    3.  **Consejo de Experto:** Dame un consejo técnico clave (además del 'foco postural' que ya tengo) para maximizar su efectividad y seguridad, evitando errores comunes.
+                    Formatea la respuesta como HTML simple, usando un <h4> para el título de cada una de las 3 secciones y un <p> para el texto. No incluyas etiquetas <html> o <body>.
+                `;
+                const result = await this.callGemini(prompt);
+                this.showGeminiContent(`Análisis de ${exercise.name}`, result);
             },
             
-            deleteSet(exerciseIndex, setIndex) {
-                this.workoutPlan[this.currentDayIndex].exercises[exerciseIndex].log.splice(setIndex, 1);
-                this.renderLogSection(exerciseIndex);
-            },
-
-            finishWorkout() {
-                if (this.currentDayIndex !== null) {
-                    this.workoutPlan[this.currentDayIndex].isCompleted = true;
-                    this.renderNav();
-                    this.renderPostWorkoutActions();
-                }
-            },
-
-            renderPostWorkoutActions() {
-                const container = document.getElementById('post-workout-actions');
-                container.innerHTML = '';
-                if (this.workoutPlan[this.currentDayIndex]?.isCompleted) {
-                    const nutritionBtn = document.createElement('button');
-                    nutritionBtn.className = 'w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-4 rounded-lg transition duration-300 flex items-center justify-center';
-                    nutritionBtn.innerHTML = `<span class="mr-2">✨</span> Tip de Nutrición Post-Entreno`;
-                    nutritionBtn.onclick = () => this.getNutritionTip();
-                    container.appendChild(nutritionBtn);
-                }
-            },
-
-            resetWeek() {
-                if (confirm('¿Estás seguro de que quieres reiniciar el progreso de toda la semana? Esto guardará los registros actuales como historial para la próxima semana.')) {
-                    this.workoutPlan.forEach(day => {
-                        day.isCompleted = false;
-                        if (day.exercises) {
-                            day.exercises.forEach(ex => {
-                                ex.previousLog = ex.log || [];
-                                ex.log = [];
-                                ex.previousDailyNote = ex.dailyNote || '';
-                                ex.dailyNote = '';
-                            });
-                        }
-                    });
-                    this.renderNav();
-                    if (this.currentDayIndex !== null) {
-                        this.renderWorkoutDetails();
-                    }
-                }
-            },
-            
-            showHistoryView() {
-                this.currentDayIndex = null;
-                this.renderNav();
-                document.getElementById('welcome-screen').classList.add('hidden');
-                document.getElementById('workout-details').classList.add('hidden');
-                const historyView = document.getElementById('history-view');
-                historyView.classList.remove('hidden');
-                this.renderHistory();
-            },
-
-            renderHistory() {
-                const historyView = document.getElementById('history-view');
-                let html = `<h2 class="text-4xl font-bold mb-6 text-amber-400">Historial de la Semana Anterior</h2>`;
-                
-                const daysWithHistory = this.workoutPlan.filter(day => day.exercises.some(ex => ex.previousLog && ex.previousLog.length > 0));
-
-                if (daysWithHistory.length === 0) {
-                    html += `<p class="text-gray-400">No hay datos guardados de la semana anterior. Completa una semana y pulsa "Reiniciar Semana" para empezar a guardar tu historial.</p>`;
-                    historyView.innerHTML = html;
-                    return;
-                }
-
-                html += `<div class="space-y-8">`;
-                daysWithHistory.forEach(day => {
-                    html += `
-                        <div class="bg-gray-800 p-5 rounded-lg shadow-lg">
-                            <h3 class="text-2xl font-bold text-cyan-400 mb-4">${day.day}: ${day.title}</h3>
-                            <div class="space-y-6">
-                    `;
-                    day.exercises.forEach(ex => {
-                        if (ex.previousLog && ex.previousLog.length > 0) {
-                            html += `<div class="border-t border-gray-700/50 pt-4">`;
-                            html += `<h4 class="text-xl font-semibold">${ex.name}</h4>`;
-                            
-                            if (ex.previousDailyNote) {
-                                html += `<p class="text-sm text-gray-300 italic my-2">"${ex.previousDailyNote}"</p>`;
-                            }
-
-                            html += `<ul class="list-disc list-inside text-gray-400 mt-2 space-y-1">`;
-                            ex.previousLog.forEach((log, index) => {
-                                html += `<li>Serie ${index + 1}: ${log.weight} kg x ${log.reps} reps</li>`;
-                            });
-                            html += `</ul></div>`;
-                        }
-                    });
-                    html += `</div></div>`;
-                });
-                html += `</div>`;
-
-                historyView.innerHTML = html;
-            },
-
+            saveDailyNote(exerciseIndex, text) { if (this.currentDayIndex !== null) this.workoutPlan[this.currentDayIndex].exercises[exerciseIndex].dailyNote = text; },
+            renderNav() { const navEl = document.getElementById('workout-days-nav'); navEl.innerHTML = ''; this.workoutPlan.forEach((day, index) => { const isRestDay = day.exercises.length === 0; const button = document.createElement('button'); button.innerHTML = `<span class="flex items-center">${day.isCompleted ? `<svg class="w-5 h-5 mr-2 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>` : `<svg class="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle></svg>`} ${day.day} ${isRestDay ? '<span class="text-xs text-gray-400 ml-2">(Descanso)</span>' : ''}</span>`; button.className = `w-full text-left px-4 py-3 rounded-lg transition duration-200 flex items-center justify-between font-medium ${this.currentDayIndex === index ? 'bg-cyan-500 text-white' : 'hover:bg-gray-700'}`; if (isRestDay) { button.disabled = true; button.classList.add('opacity-50', 'cursor-not-allowed'); } else { button.addEventListener('click', () => this.selectDay(index)); } navEl.appendChild(button); }); },
+            selectDay(index) { this.currentDayIndex = index; this.renderNav(); document.getElementById('history-view').classList.add('hidden'); document.getElementById('welcome-screen').classList.add('hidden'); document.getElementById('workout-details').classList.remove('hidden'); this.renderWorkoutDetails(); },
+            renderLogSection(exerciseIndex) { const logSectionEl = document.getElementById(`log-section-${exerciseIndex}`); const exercise = this.workoutPlan[this.currentDayIndex].exercises[exerciseIndex]; logSectionEl.innerHTML = ''; const logList = document.createElement('div'); logList.className = 'space-y-2 mb-4'; exercise.log.forEach((log, setIndex) => { logList.innerHTML += `<div class="flex items-center justify-between bg-gray-700 p-2 rounded"><span class="font-medium">Serie ${setIndex + 1}:</span><span class="text-gray-300">${log.weight} kg x ${log.reps} reps</span><button class="text-red-500 hover:text-red-400 text-xs" onclick="app.deleteSet(${exerciseIndex}, ${setIndex})">Eliminar</button></div>`; }); logSectionEl.appendChild(logList); if (exercise.log.length < exercise.series) { const lastLog = exercise.log[exercise.log.length - 1] || { weight: '', reps: '' }; const form = document.createElement('div'); form.className = 'flex items-center space-x-2 md:space-x-4'; const setNumber = exercise.log.length + 1; let previousSetHTML = ''; if (exercise.previousLog && exercise.previousLog[setNumber - 1]) { const prev = exercise.previousLog[setNumber - 1]; previousSetHTML = `<span class="text-sm text-gray-400 ml-2">(Anterior: ${prev.weight} kg x ${prev.reps} reps)</span>`; } form.innerHTML = `<div class="flex-grow flex items-center"><span class="font-bold text-lg text-gray-400">Serie ${setNumber}</span>${previousSetHTML}</div><input type="number" id="weight-input-${exerciseIndex}" placeholder="Peso (kg)" value="${lastLog.weight}" class="bg-gray-700 border border-gray-600 rounded px-3 py-2 w-24 focus:outline-none focus:ring-2 focus:ring-cyan-500"><input type="number" id="reps-input-${exerciseIndex}" placeholder="Reps" value="${lastLog.reps}" class="bg-gray-700 border border-gray-600 rounded px-3 py-2 w-24 focus:outline-none focus:ring-2 focus:ring-cyan-500"><button onclick="app.saveSet(${exerciseIndex})" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded whitespace-nowrap">Guardar</button>`; logSectionEl.appendChild(form); } else { logSectionEl.innerHTML += `<p class="text-green-400 font-medium text-center">¡Todas las series completadas!</p>`; } },
+            saveSet(exerciseIndex) { const weightInput = document.getElementById(`weight-input-${exerciseIndex}`); const repsInput = document.getElementById(`reps-input-${exerciseIndex}`); const weight = parseFloat(weightInput.value) || 0; const reps = parseInt(repsInput.value) || 0; if (reps > 0) { this.workoutPlan[this.currentDayIndex].exercises[exerciseIndex].log.push({ weight, reps }); this.renderLogSection(exerciseIndex); } },
+            deleteSet(exerciseIndex, setIndex) { this.workoutPlan[this.currentDayIndex].exercises[exerciseIndex].log.splice(setIndex, 1); this.renderLogSection(exerciseIndex); },
+            finishWorkout() { if (this.currentDayIndex !== null) { this.workoutPlan[this.currentDayIndex].isCompleted = true; this.renderNav(); this.renderPostWorkoutActions(); } },
+            renderPostWorkoutActions() { const container = document.getElementById('post-workout-actions'); container.innerHTML = ''; if (this.workoutPlan[this.currentDayIndex]?.isCompleted) { const nutritionBtn = document.createElement('button'); nutritionBtn.className = 'w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-4 rounded-lg transition duration-300 flex items-center justify-center'; nutritionBtn.innerHTML = `<span class="mr-2">✨</span> Tip de Nutrición Post-Entreno`; nutritionBtn.onclick = () => this.getNutritionTip(); container.appendChild(nutritionBtn); } },
+            resetWeek() { if (confirm('¿Seguro que quieres reiniciar la semana?')) { this.workoutPlan.forEach(day => { day.isCompleted = false; if (day.exercises) { day.exercises.forEach(ex => { ex.previousLog = ex.log || []; ex.log = []; ex.previousDailyNote = ex.dailyNote || ''; ex.dailyNote = ''; }); } }); this.renderNav(); if (this.currentDayIndex !== null) this.renderWorkoutDetails(); } },
+            showHistoryView() { this.currentDayIndex = null; this.renderNav(); document.getElementById('welcome-screen').classList.add('hidden'); document.getElementById('workout-details').classList.add('hidden'); const historyView = document.getElementById('history-view'); historyView.classList.remove('hidden'); this.renderHistory(); },
+            renderHistory() { const historyView = document.getElementById('history-view'); let html = `<h2 class="text-4xl font-bold mb-6 text-amber-400">Historial Semana Anterior</h2>`; const daysWithHistory = this.workoutPlan.filter(day => day.exercises.some(ex => ex.previousLog && ex.previousLog.length > 0)); if (daysWithHistory.length === 0) { html += `<p class="text-gray-400">No hay datos de la semana anterior.</p>`; historyView.innerHTML = html; return; } html += `<div class="space-y-8">`; daysWithHistory.forEach(day => { html += `<div class="bg-gray-800 p-5 rounded-lg shadow-lg"><h3 class="text-2xl font-bold text-cyan-400 mb-4">${day.day}: ${day.title}</h3><div class="space-y-6">`; day.exercises.forEach(ex => { if (ex.previousLog && ex.previousLog.length > 0) { html += `<div class="border-t border-gray-700/50 pt-4"><h4 class="text-xl font-semibold">${ex.name}</h4>`; if (ex.previousDailyNote) { html += `<p class="text-sm text-gray-300 italic my-2">"${ex.previousDailyNote}"</p>`; } html += `<ul class="list-disc list-inside text-gray-400 mt-2 space-y-1">`; ex.previousLog.forEach((log, index) => { html += `<li>Serie ${index + 1}: ${log.weight} kg x ${log.reps} reps</li>`; }); html += `</ul></div>`; } }); html += `</div></div>`; }); html += `</div>`; historyView.innerHTML = html; },
             openModal() { const modal = document.getElementById('general-modal'); modal.classList.remove('opacity-0', 'pointer-events-none'); modal.querySelector('.modal-content').classList.remove('scale-95'); },
             closeModal() { const modal = document.getElementById('general-modal'); modal.classList.add('opacity-0', 'pointer-events-none'); modal.querySelector('.modal-content').classList.add('scale-95'); },
             openGifModal(dayIndex, exerciseIndex) { const exercise = this.workoutPlan[dayIndex].exercises[exerciseIndex]; document.getElementById('modal-title').textContent = exercise.name; const gifContainer = document.getElementById('modal-gif-container'); const textContainer = document.getElementById('modal-text-container'); const loader = document.getElementById('modal-loader'); gifContainer.src = exercise.gifUrl; gifContainer.onerror = () => { gifContainer.src = 'https://placehold.co/400x300/1f2937/ffffff?text=GIF+no+disponible'; }; gifContainer.classList.remove('hidden'); textContainer.classList.add('hidden'); loader.classList.add('hidden'); this.openModal(); },
             showGeminiContent(title, content) { document.getElementById('modal-title').textContent = title; const gifContainer = document.getElementById('modal-gif-container'); const textContainer = document.getElementById('modal-text-container'); const loader = document.getElementById('modal-loader'); textContainer.innerHTML = content; gifContainer.classList.add('hidden'); textContainer.classList.remove('hidden'); loader.classList.add('hidden'); this.openModal(); },
             showLoadingModal(title) { document.getElementById('modal-title').textContent = title; const gifContainer = document.getElementById('modal-gif-container'); const textContainer = document.getElementById('modal-text-container'); const loader = document.getElementById('modal-loader'); gifContainer.classList.add('hidden'); textContainer.classList.add('hidden'); loader.classList.remove('hidden'); this.openModal(); },
-            async callGemini(prompt, retries = 3, delay = 1000) { const apiKey = "AIzaSyCV0Hms6n1fboeI8m4Pqg1YCu9iVul3gro"; const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`; const payload = { contents: [{ role: "user", parts: [{ text: prompt }] }] }; try { const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); if (!response.ok) { if (response.status === 429 && retries > 0) { await new Promise(res => setTimeout(res, delay)); return this.callGemini(prompt, retries - 1, delay * 2); } throw new Error(`Error en la API: ${response.statusText}`); } const result = await response.json(); if (result.candidates && result.candidates.length > 0 && result.candidates[0].content.parts.length > 0) { return result.candidates[0].content.parts[0].text; } else { return "No se pudo obtener una respuesta. Inténtalo de nuevo."; } } catch (error) { console.error("Error llamando a la API de Gemini:", error); return `<p class="text-red-400">Hubo un error al contactar al asistente de IA. Por favor, revisa tu conexión e inténtalo de nuevo.</p>`; } },
-            async generateWarmup() { const dayTitle = this.workoutPlan[this.currentDayIndex].title; this.showLoadingModal("Generando Calentamiento..."); const prompt = `Eres un entrenador personal. Genera una rutina de calentamiento dinámico de 5 minutos para una sesión de gimnasio enfocada en '${dayTitle}'. El objetivo es preparar los músculos y articulaciones para el trabajo, no causar fatiga. Incluye 3-4 ejercicios con instrucciones muy breves y claras. Formatea la respuesta como HTML simple, usando <h4> para los títulos de los ejercicios y <p> para las instrucciones. No incluyas etiquetas <html> o <body>.`; const result = await this.callGemini(prompt); this.showGeminiContent("✨ Calentamiento Sugerido", result); },
-            async suggestAlternative(exerciseIndex) { const exercise = this.workoutPlan[this.currentDayIndex].exercises[exerciseIndex]; this.showLoadingModal(`Buscando alternativa para ${exercise.name}...`); const prompt = `Eres un entrenador personal. Sugiere una única alternativa para el ejercicio '''${exercise.name}'''. La descripción de este ejercicio es: '''${exercise.notes}'''. La alternativa debe trabajar los mismos grupos musculares principales. Idealmente, debería usar un equipamiento diferente (por ejemplo, si el original usa poleas, sugiere una con mancuernas o peso corporal). Explica brevemente (1-2 frases) por qué es una buena alternativa. Formatea la respuesta como HTML simple, usando un <h4> para el nombre del ejercicio alternativo y un <p> para la explicación. No incluyas etiquetas <html> o <body>.`; const result = await this.callGemini(prompt); this.showGeminiContent(`✨ Alternativa para ${exercise.name}`, result); },
-            async getNutritionTip() { const dayTitle = this.workoutPlan[this.currentDayIndex].title; this.showLoadingModal("Generando Tip de Nutrición..."); const prompt = `Eres un nutricionista deportivo. Acabo de terminar mi entrenamiento de '''${dayTitle}'''. Dame un consejo de nutrición rápido, práctico y accionable para mi comida post-entrenamiento para maximizar la recuperación y el crecimiento muscular. Mantenlo corto y motivador. Formatea la respuesta como HTML simple, usando un <h4> para el título del consejo y un <p> para la explicación. No incluyas etiquetas <html> o <body>.`; const result = await this.callGemini(prompt); this.showGeminiContent("✨ Tip de Nutrición Post-Entreno", result); },
+            
+            async callGemini(prompt, retries = 3, delay = 1000) {
+                const apiKey = "AIzaSyA05K-zm1AfepDzsRmeowEn4qiIYRrsZgk";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                
+                const payload = {
+                    contents: [{ role: "user", parts: [{ text: prompt }] }],
+                    safetySettings: [
+                        { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
+                        { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
+                        { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
+                        { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" },
+                    ]
+                };
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    
+                    if (!response.ok) {
+                        let errorDetails = `API error: ${response.status}`;
+                        try {
+                            const errorData = await response.json();
+                            console.error("Google API Error Response:", errorData);
+                            if (errorData.error && errorData.error.message) {
+                               errorDetails += ` - ${errorData.error.message}`;
+                            }
+                        } catch (e) {
+                            errorDetails += ` ${response.statusText}`;
+                        }
+                        
+                        if (response.status === 429 && retries > 0) {
+                            await new Promise(res => setTimeout(res, delay));
+                            return this.callGemini(prompt, retries - 1, delay * 2);
+                        }
+                        throw new Error(errorDetails);
+                    }
+
+                    const result = await response.json();
+                    if (result.candidates && result.candidates.length > 0 && result.candidates[0].content.parts.length > 0) {
+                        return result.candidates[0].content.parts[0].text;
+                    } else {
+                        console.error("API response was successful but contained no content.", result);
+                        return "<p>La respuesta fue bloqueada o no contenía texto. Intenta de nuevo.</p>";
+                    }
+                } catch (error) {
+                    console.error("Error calling Gemini API:", error);
+                    return `<p class="text-red-400">Hubo un error al contactar al asistente de IA. Revisa la consola para más detalles.</p>`;
+                }
+            },
+            
+            async generateWarmup() { const dayTitle = this.workoutPlan[this.currentDayIndex].title; this.showLoadingModal("Generando Calentamiento..."); const prompt = `Eres un entrenador personal. Genera una rutina de calentamiento dinámico de 5 minutos para una sesión de gimnasio enfocada en '${dayTitle}'. Incluye 3-4 ejercicios con instrucciones breves. Formatea como HTML simple (<h4> y <p>).`; const result = await this.callGemini(prompt); this.showGeminiContent("✨ Calentamiento Sugerido", result); },
+            async suggestAlternative(exerciseIndex) { const exercise = this.workoutPlan[this.currentDayIndex].exercises[exerciseIndex]; this.showLoadingModal(`Buscando alternativa...`); const prompt = `Eres un entrenador personal. Sugiere una única alternativa para el ejercicio '${exercise.name}' (descripción: '${exercise.notes}'). Debe trabajar los mismos músculos pero con equipamiento diferente. Explica brevemente por qué es buena alternativa. Formatea como HTML simple (<h4> y <p>).`; const result = await this.callGemini(prompt); this.showGeminiContent(`✨ Alternativa para ${exercise.name}`, result); },
+            async getNutritionTip() { const dayTitle = this.workoutPlan[this.currentDayIndex].title; this.showLoadingModal("Generando Tip de Nutrición..."); const prompt = `Eres un nutricionista deportivo. Acabo de terminar mi entrenamiento de '${dayTitle}'. Dame un consejo práctico de nutrición post-entreno para recuperación y crecimiento. Mantenlo corto. Formatea como HTML simple (<h4> y <p>).`; const result = await this.callGemini(prompt); this.showGeminiContent("✨ Tip de Nutrición", result); },
             startTimer() { if (this.timerInterval) return; this.timerInterval = setInterval(() => { this.timerSeconds++; this.updateTimerDisplay(); }, 1000); },
             stopTimer() { clearInterval(this.timerInterval); this.timerInterval = null; },
             resetTimer() { this.stopTimer(); this.timerSeconds = 0; this.updateTimerDisplay(); },
             updateTimerDisplay() { const minutes = Math.floor(this.timerSeconds / 60).toString().padStart(2, '0'); const seconds = (this.timerSeconds % 60).toString().padStart(2, '0'); document.getElementById('timer').textContent = `${minutes}:${seconds}`; }
         };
 
-        document.addEventListener('DOMContentLoaded', () => {
-            app.init();
-        });
+        document.addEventListener('DOMContentLoaded', () => { app.init(); });
     </script>
 </body>
 </html>
+
 
